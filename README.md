@@ -15,7 +15,7 @@ let array: [];
 // Success
 let candidate: number[];
 let resultArray: number[] = [];
-let numberArray: Array<Number>;
+let numberArray: Array<number>;
 ```
 
 > `as const` : 객체 프로퍼티도 수정 못하게 막을 수 있다.
