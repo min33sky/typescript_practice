@@ -1,12 +1,5 @@
-interface Card {
-  att: number;
-  hp: number;
-  mine: boolean;
-  cost?: number; // number | undefined
-  field?: boolean; // number | undefined
-}
+import { Card, Player } from './types';
 
-// 영웅 카드
 class Hero implements Card {
   public att: number;
   public hp: number;
@@ -35,18 +28,6 @@ class Sub implements Card {
     this.mine = mine;
     this.field = false;
   }
-}
-
-interface Player {
-  hero: HTMLDivElement;
-  deck: HTMLDivElement;
-  field: HTMLDivElement;
-  cost: HTMLDivElement;
-  deckData: Sub[];
-  heroData: Hero | null;
-  fieldData: Sub[];
-  chosenCard: HTMLDivElement | null;
-  chosenCardData: Card | null;
 }
 
 // 상대편의 상태
@@ -226,6 +207,7 @@ function isSub(data: Card): data is Sub {
 function deckToField({ data }: { data: Sub }): boolean {
   const target = turn ? me : opponent;
   const currentCost = Number(target.cost.textContent);
+
   // 카드 코스트가 현재 남은 코스트보다 크다면 선택 불가
   if (currentCost < data.cost) {
     alert('코스트가 모자르다');

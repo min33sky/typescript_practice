@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "strict": true,
+    // 타입이 있는 곳을 적는다.
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "target": "ES5"
+  }
+}

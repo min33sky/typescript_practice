@@ -84,7 +84,7 @@ const example: Example = {
 
 ## keyof
 
-- 변수 타입과 리턴 타입을 중복해서 적는걸 막기 위해서 `keyof`를 사용한다.
+> 변수 타입과 리턴 타입을 중복해서 적는걸 막기 위해서 `keyof`를 사용한다.
 
 ```ts
 interface RSP {
@@ -105,7 +105,9 @@ function computerChoice(imgCoords: RSP[keyof RSP]): keyof RSP {
 }
 ```
 
-## Typescript는 HTML을 체크하지 못해 DOM 메서드 사용 시 NULL을 리턴한다고 파악하며 문자열도 인식 못한다.
+## 주의점
+
+> Typescript는 HTML을 체크하지 못해 DOM 메서드 사용 시 NULL을 리턴한다고 파악하며 문자열도 인식 못한다.
 
 ```ts
 
@@ -119,4 +121,52 @@ if(computer) {
   computer.style.background = 'url(이미지)';
 }
 
+```
+
+## Module
+
+- node는 commonjs 모듈, typescript는 javascript와 같은 모듈 시스템을 사용한다.
+
+- 두 모듈의 차이점은 default의 유무이다.
+
+```ts
+// commonjs module
+const hello = 'module';
+
+// exports 객체의 속성 값으로 넣기
+// const {a, b} = require('./module')로 불러올 수 있다.
+exports.a = 1;
+exports.b = 'hi';
+
+// exports 객체를 덮어 씌우므로 위의 값들은 사라진다.
+// const module = require('./module)로 불러올 수 있다.
+module.exports = function() {
+  c: 'bye',
+};
+```
+
+```ts
+// es2015 module
+const hello = 'module';
+
+// import {a, b} from './module'로 불러올 수 있다.
+export const a = 1;
+export const b = 'hi';
+
+// commonjs와 달리 별개로 취급된다.
+// !! module.exports와 차이점이다.
+// import module from './module';로 불러올 수 있다.
+export default function() {
+  c: 'bye';
+}
+```
+
+> import문으로 commonjs 모듈을 가져올 때 주의 사항
+
+```ts
+// X : tsconfig 설정을 통해서 아래와 같이 사용할 수 있지만 비추천
+import hi from './module';
+// O
+import hi = require('./module');
+import * as hi from './module';
 ```
