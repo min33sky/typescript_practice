@@ -4,6 +4,12 @@
 
 ---
 
+## 예제
+
+- todo-app (투두 앱)
+
+---
+
 ## Grammer
 
 > 배열 타입을 `[ ]`으로 지정하면 never 타입이 되어서 어떤 값도 들어갈 수가 없다
@@ -156,7 +162,7 @@ export const b = 'hi';
 // commonjs와 달리 별개로 취급된다.
 // !! module.exports와 차이점이다.
 // import module from './module';로 불러올 수 있다.
-export default function() {
+export default function () {
   c: 'bye';
 }
 ```
