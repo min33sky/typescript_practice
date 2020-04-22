@@ -7,6 +7,7 @@
 ## 예제
 
 - todo-app (투두 앱)
+- ts-axios (Axios 만들어보기)
 
 ---
 
@@ -175,4 +176,23 @@ import hi from './module';
 // O
 import hi = require('./module');
 import * as hi from './module';
+```
+
+## React-router
+
+> 리액트 라우터의 타입은 react-router 모듈의 **RouteComponentProps**로 제공된다.
+
+```js
+// params는 제네릭에 타입을 넣어줘야한다.
+type ProfileParams = {
+  username: string;
+};
+
+export default function Profile({ match }: RouteComponentProps<ProfileParams>) {
+  const { username } = match.params;
+  const profile = data[username];
+  if (!profile) {
+    return <div>존재하지 않는 사용자입니다.</div>;
+  }
+
 ```
