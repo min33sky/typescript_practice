@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import NewsItem, { NewsItemType } from './NewsItem';
+import NewsItem from './NewsItem';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import usePromise from '../lib/usePromise';
 dotenv.config(); // ! cra에서 dotenv를 사용할 땐 REACT_APP_을 접두사로 사용해야 한다
 
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -24,32 +25,27 @@ interface NewsListProps {
 }
 
 function NewsList({ category }: NewsListProps) {
-  const [articles, setArticles] = useState<NewsItemType[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    // ! useEffect를 async함수로 만들면 안되고
-    // ! async를 사용하는 함수를 따로 선언해야한다.
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const query = category === 'all' ? '' : `&category=${category}`;
-        const response = await axios.get(`
-        http://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=${API_KEY}`);
-        setArticles(response.data.articles);
-      } catch (e) {
-        console.log(e);
-      }
-      setLoading(false);
-    };
-
-    fetchData();
+  // Custom Hooks 사용
+  const [loading, response, error] = usePromise(() => {
+    const query = category === 'all' ? '' : `&category=${category}`;
+    return axios.get(`
+    http://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=${API_KEY}`);
   }, [category]);
 
   // Loading...
   if (loading) {
     return <NewsListBlock>대기 중....</NewsListBlock>;
   }
+
+  if (!response) {
+    return null;
+  }
+
+  if (error) {
+    return <NewsListBlock>에러 발생</NewsListBlock>;
+  }
+
+  const articles = response.data.articles;
 
   return (
     <NewsListBlock>
