@@ -1,16 +1,16 @@
 import React from 'react';
-import './TodoItem.css';
 import { useTodosDispatch } from '../contexts/TodosContext';
+import './TodoItem.css';
 
-export interface TodoItemProps {
+export type TodoItemProps = {
   todo: {
     id: number;
     text: string;
     done: boolean;
   };
-}
+};
 
-function TodoItem({ todo }: TodoItemProps) {
+export default function TodoItem({ todo }: TodoItemProps) {
   const dispatch = useTodosDispatch();
 
   const onToggle = () => {
@@ -28,15 +28,13 @@ function TodoItem({ todo }: TodoItemProps) {
   };
 
   return (
-    <li className={`TodoItem ${todo.done && 'done'}`}>
+    <li className={`TodoItem ${todo.done ? 'done' : ''}`}>
       <span className="text" onClick={onToggle}>
         {todo.text}
       </span>
       <span className="remove" onClick={onRemove}>
-        ❌
+        (X)
       </span>
     </li>
   );
 }
-
-export default TodoItem;

@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ColorBox from './components/ColorBox';
 import { ColorProvider } from './contexts/color';
 import SelectColors from './components/SelectColors';
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
+import { TodosContextProvider } from './contexts/TodosContext';
 
 function App() {
+  const [mode, setMode] = useState(true);
+
   return (
-    <ColorProvider>
-      <SelectColors />
+    <>
+      {!mode && (
+        <ColorProvider>
+          <SelectColors />
+          <hr />
+          <ColorBox />
+        </ColorProvider>
+      )}
+      {mode && (
+        <TodosContextProvider>
+          <TodoForm />
+          <TodoList />
+        </TodosContextProvider>
+      )}
       <hr />
-      <ColorBox />
-    </ColorProvider>
+      <button onClick={() => setMode((prev) => !prev)}>화면 전환</button>
+    </>
   );
 }
 

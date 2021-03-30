@@ -1,60 +1,40 @@
-import React, { createContext, Dispatch, useReducer, useContext } from 'react';
+import React, { createContext, Dispatch, useContext, useReducer } from 'react';
 
-/**
- * * 상태용 Context와 디스패치용 Context를 따로 만든다.
- * ? Context 1개를 쓰는 것보다 쓸대없는 랜더링을 줄일 수 있다.
- */
-
-export interface Todo {
+export type Todo = {
   id: number;
   text: string;
   done: boolean;
-}
+};
 
-type TodoState = Todo[];
+type TodosState = Todo[];
 
-// ****** 상태용 Context
-const TodosStateContext = createContext<TodoState | undefined>(undefined);
+// 상태 전용 Context
+const TodosStateContext = createContext<TodosState | undefined>(undefined);
 
 type Action =
-  | {
-      type: 'CREATE';
-      text: string;
-    }
-  | {
-      type: 'TOGGLE';
-      id: number;
-    }
-  | {
-      type: 'REMOVE';
-      id: number;
-    };
+  | { type: 'CREATE'; text: string }
+  | { type: 'TOGGLE'; id: number }
+  | { type: 'REMOVE'; id: number };
 
 type TodosDispatch = Dispatch<Action>;
 
-// ***** 디스패치용 Context
+// 디스패치 전용 Context
 const TodosDispatchContext = createContext<TodosDispatch | undefined>(
   undefined,
 );
 
-function todosReducer(state: TodoState, action: Action): TodoState {
+// 리듀서
+function todosReducer(state: TodosState, action: Action): TodosState {
   switch (action.type) {
-    case 'CREATE':
+    case 'CREATE': {
+      //? Math.max(...[])의 값은 -Infinity이므로 기본값으로 0을 넣어주자
       const nextId = Math.max(0, ...state.map((todo) => todo.id)) + 1;
-      return state.concat({
-        id: nextId,
-        text: action.text,
-        done: false,
-      });
+      return [...state, { id: nextId, text: action.text, done: false }];
+    }
 
     case 'TOGGLE':
       return state.map((todo) =>
-        todo.id === action.id
-          ? {
-              ...todo,
-              done: !todo.done,
-            }
-          : todo,
+        todo.id === action.id ? { ...todo, done: !todo.done } : todo,
       );
 
     case 'REMOVE':
@@ -64,8 +44,6 @@ function todosReducer(state: TodoState, action: Action): TodoState {
       throw new Error('Unhandled action');
   }
 }
-
-// ***** Provider
 
 export function TodosContextProvider({
   children,
@@ -85,7 +63,7 @@ export function TodosContextProvider({
     },
     {
       id: 3,
-      text: 'Typescript 와 Context API 함께 사용하기',
+      text: 'Typescript와 Context API 함께 사용하기',
       done: false,
     },
   ]);
@@ -99,9 +77,8 @@ export function TodosContextProvider({
   );
 }
 
-// ***** Custom Hooks
-
-export function useTodosState() {
+//? custom Hook (undefined를 미리 처리해서 사용하기)
+export function useTodoState() {
   const state = useContext(TodosStateContext);
   if (!state) throw new Error('TodosProvider not found');
   return state;
