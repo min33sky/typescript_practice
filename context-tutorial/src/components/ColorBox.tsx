@@ -1,25 +1,23 @@
-import React, { useContext } from 'react';
-import ColorContext from '../contexts/color';
+import React from 'react';
+import { useColorState } from '../contexts/ColorContext';
 
 /**
  * 선택한 색깔을 보여주는 컴포넌트
  */
 function ColorBox() {
-  const {
-    state: { color, subcolor },
-  } = useContext(ColorContext);
+  const { left, right } = useColorState();
 
   const leftClickColor = {
     width: '64px',
     height: '64px',
-    background: color,
+    background: left.color,
     cursor: 'pointer',
   };
 
   const rightClickColor = {
     width: '32px',
     height: '32px',
-    background: subcolor,
+    background: right.color,
     cursor: 'pointer',
   };
 

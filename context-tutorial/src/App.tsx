@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import ColorBox from './components/ColorBox';
-import { ColorProvider } from './contexts/color';
 import SelectColors from './components/SelectColors';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
+import { ColorProvider } from './contexts/ColorContext';
 import { TodosContextProvider } from './contexts/TodosContext';
 
 function App() {
