@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    "strict": true,
-    "declaration": true, // d.ts 파일 생성
-    "lib": ["DOM", "ES2020"]
-  }
-}
