@@ -1,4 +1,4 @@
-//? 조건형 타입 설정하기
+//? 조건형 타입 (A extends B ? C : D) 설정하기
 
 type Animal = {
   name: string;

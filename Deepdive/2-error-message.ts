@@ -1,10 +1,16 @@
 //? 제네릭 타입 체크시 에러메세지 설정
 
+type CheckForBadArgs<Arg> = Arg extends any[] ? "Don't pass array" : Arg;
+
 const deepEqualCompare = <Arg>(
-  a: Arg extends any[] ? "Don't pass array" : Arg,
-  b: Arg extends any[] ? "Don't pass array" : Arg
+  a: CheckForBadArgs<Arg>,
+  b: CheckForBadArgs<Arg>
 ): boolean => {
-  //* Array.isArray() 구문을 사용해 에러를 발생시키는 구문을 추가 할 필요가 없다.
+  // * 매개변수의 타입으로 타입 체크가 미리 가능하므로 아래 코드가 필요가 없어진다.
+  // if (Array.isArray(a) || Array.isArray(b)) {
+  //   throw new Error('Array Nooooooooooooooooooooo!!');
+  // }
+
   return a === b;
 };
 
